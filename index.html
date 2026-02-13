@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Be My Valentine ❤️</title>
+<title>Be My Valentine Mrs. Pandey Ji❤️</title>
 
 <style>
     body {
@@ -24,6 +24,7 @@
         text-align: center;
         box-shadow: 0 15px 40px rgba(0,0,0,0.2);
         position: relative;
+        width: 320px;
         animation: float 3s ease-in-out infinite;
     }
 
@@ -34,19 +35,12 @@
 
     h1 {
         color: #ff4d6d;
-        margin-bottom: 20px;
-        animation: pop 1s ease;
-    }
-
-    @keyframes pop {
-        from { transform: scale(0); }
-        to { transform: scale(1); }
+        margin-bottom: 15px;
     }
 
     /* Face */
     .face {
         font-size: 70px;
-        margin: 10px 0;
         position: relative;
     }
 
@@ -93,6 +87,22 @@
         position: absolute;
     }
 
+    /* teasing message */
+    .message {
+        font-size: 14px;
+        color: #ff4d6d;
+        margin-top: 10px;
+        min-height: 20px;
+        font-weight: bold;
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from {opacity:0}
+        to {opacity:1}
+    }
+
+    /* heart animation */
     .hearts {
         position: absolute;
         font-size: 25px;
@@ -109,7 +119,7 @@
 <body>
 
 <div class="card">
-    <h1>Will You Be My Valentine? ❤️</h1>
+    <h1>Will You Be My Valentine Mrs. Pandey? ❤️</h1>
 
     <div class="face">
         😊
@@ -119,25 +129,41 @@
 
     <button id="yes">Yes 💖</button>
     <button id="no">No 🙈</button>
+
+    <div id="msg" class="message"></div>
 </div>
 
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
+const msg = document.getElementById("msg");
 const card = document.querySelector(".card");
 
-/* Teasing effect — No button runs away */
+/* ------------------------------
+   NO BUTTON TEASE EFFECT 😜
+   ------------------------------ */
 noBtn.addEventListener("mouseover", () => {
+
+    // Move randomly so she can't click it
     const x = Math.random() * 250 - 125;
     const y = Math.random() * 200 - 100;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+    // Show teasing message
+    msg.innerText = "You are not allowed to leave this relation Madam ji 😘❤️";
 });
 
-/* Yes button celebration */
+/* ------------------------------
+   YES BUTTON CELEBRATION 💕
+   ------------------------------ */
 yesBtn.addEventListener("click", () => {
-    document.querySelector("h1").innerText = "Yayyy! You made me the happiest ❤️🥰";
 
-    for(let i=0;i<20;i++){
+    document.querySelector("h1").innerText =
+        "Yayyy! You made me the happiest Baccha ❤️🥰";
+
+    msg.innerText = "Best decision ever Wifey😍";
+
+    for(let i=0;i<25;i++){
         const heart = document.createElement("div");
         heart.innerText = "❤️";
         heart.className = "hearts";
