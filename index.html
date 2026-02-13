@@ -3,123 +3,90 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Be My Valentine Mrs. Pandey Ji❤️</title>
+<title>Be My Valentine ❤️</title>
 
 <style>
-    body {
-        margin: 0;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-        font-family: "Poppins", sans-serif;
-        overflow: hidden;
-    }
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+    font-family:Poppins,sans-serif;
+    overflow:hidden;
+}
 
-    .card {
-        background: white;
-        padding: 40px;
-        border-radius: 25px;
-        text-align: center;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        position: relative;
-        width: 320px;
-        animation: float 3s ease-in-out infinite;
-    }
+.card{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    position:relative;
+    width:330px;
+}
 
-    @keyframes float {
-        0%,100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
+/* Face */
+.face{
+    font-size:70px;
+    position:relative;
+}
 
-    h1 {
-        color: #ff4d6d;
-        margin-bottom: 15px;
-    }
+.blush{
+    position:absolute;
+    width:20px;
+    height:10px;
+    background:pink;
+    border-radius:50%;
+    bottom:15px;
+    animation:blush 1.5s infinite alternate;
+}
+.left{left:20px;}
+.right{right:20px;}
 
-    /* Face */
-    .face {
-        font-size: 70px;
-        position: relative;
-    }
+@keyframes blush{
+    from{opacity:.3}
+    to{opacity:.9}
+}
 
-    .blush {
-        position: absolute;
-        width: 20px;
-        height: 10px;
-        background: pink;
-        border-radius: 50%;
-        bottom: 15px;
-        opacity: 0.7;
-        animation: blush 1.5s infinite alternate;
-    }
+button{
+    padding:10px 20px;
+    margin:10px;
+    font-size:16px;
+    border-radius:20px;
+    border:none;
+    cursor:pointer;
+}
 
-    .left { left: 20px; }
-    .right { right: 20px; }
+#yes{background:#ff4d6d;color:white;}
+#no{background:#ccc;position:absolute;}
 
-    @keyframes blush {
-        from { opacity: 0.3; }
-        to { opacity: 0.9; }
-    }
+.message{
+    margin-top:12px;
+    color:#ff4d6d;
+    font-weight:bold;
+    min-height:22px;
+    transition:0.3s;
+}
 
-    button {
-        padding: 10px 20px;
-        margin: 10px;
-        font-size: 16px;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    #yes {
-        background: #ff4d6d;
-        color: white;
-    }
-
-    #yes:hover {
-        transform: scale(1.1);
-    }
-
-    #no {
-        background: #ccc;
-        position: absolute;
-    }
-
-    /* teasing message */
-    .message {
-        font-size: 14px;
-        color: #ff4d6d;
-        margin-top: 10px;
-        min-height: 20px;
-        font-weight: bold;
-        animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-        from {opacity:0}
-        to {opacity:1}
-    }
-
-    /* heart animation */
-    .hearts {
-        position: absolute;
-        font-size: 25px;
-        animation: rise 2s linear forwards;
-    }
-
-    @keyframes rise {
-        from { transform: translateY(0); opacity: 1; }
-        to { transform: translateY(-200px); opacity: 0; }
-    }
+/* hearts */
+.hearts{
+    position:absolute;
+    font-size:25px;
+    animation:rise 2s linear forwards;
+}
+@keyframes rise{
+    from{transform:translateY(0);opacity:1}
+    to{transform:translateY(-200px);opacity:0}
+}
 </style>
 </head>
 
 <body>
 
 <div class="card">
-    <h1>Will You Be My Valentine Mrs. Pandey? ❤️</h1>
+    <h1>Will You Be My Valentine? ❤️</h1>
 
     <div class="face">
         😊
@@ -131,6 +98,9 @@
     <button id="no">No 🙈</button>
 
     <div id="msg" class="message"></div>
+
+    <!-- hidden music player -->
+    <iframe id="music" width="0" height="0" allow="autoplay"></iframe>
 </div>
 
 <script>
@@ -138,40 +108,55 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const msg = document.getElementById("msg");
 const card = document.querySelector(".card");
+const music = document.getElementById("music");
 
-/* ------------------------------
-   NO BUTTON TEASE EFFECT 😜
-   ------------------------------ */
-noBtn.addEventListener("mouseover", () => {
+/* 🔥 Dynamic teasing messages */
+const lines = [
+    "Kch jda hi no kr rhi 😏",
+    "Kro kro, ho jaye to btana 😂",
+    "Aree bhai hslo, badi si naak kitna phulaogi 😜",
+    "No allow nhi hai Madam ji 😘❤️"
+];
 
-    // Move randomly so she can't click it
-    const x = Math.random() * 250 - 125;
-    const y = Math.random() * 200 - 100;
+let index = 0;
+
+/* NO button behaviour */
+function tease() {
+
+    // move button randomly
+    const x = Math.random()*260 - 130;
+    const y = Math.random()*200 - 100;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-    // Show teasing message
-    msg.innerText = "You are not allowed to leave this relation Madam ji 😘❤️";
-});
+    // change message dynamically
+    msg.innerText = lines[index];
 
-/* ------------------------------
-   YES BUTTON CELEBRATION 💕
-   ------------------------------ */
+    index = (index + 1) % lines.length; // cycle
+}
+
+noBtn.addEventListener("mouseover", tease);
+noBtn.addEventListener("click", tease); // mobile support
+
+/* YES celebration */
 yesBtn.addEventListener("click", () => {
 
     document.querySelector("h1").innerText =
-        "Yayyy! You made me the happiest Baccha ❤️🥰";
+        "Yayyy! You made me the happiest ❤️🥰";
 
-    msg.innerText = "Best decision ever Wifey😍";
+    msg.innerText = "Playing our song... 🎶";
 
-    for(let i=0;i<25;i++){
+    // autoplay music
+    music.src = "https://www.youtube.com/embed/KUpwupYj_tY?autoplay=1";
+
+    // hearts animation
+    for(let i=0;i<30;i++){
         const heart = document.createElement("div");
-        heart.innerText = "❤️";
-        heart.className = "hearts";
-        heart.style.left = Math.random()*300 + "px";
-        heart.style.bottom = "0px";
+        heart.innerText="❤️";
+        heart.className="hearts";
+        heart.style.left=Math.random()*300+"px";
+        heart.style.bottom="0px";
         card.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 2000);
+        setTimeout(()=>heart.remove(),2000);
     }
 });
 </script>
